@@ -14,3 +14,11 @@ func GetDBConnectionString() string {
 
 	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", user, pass, host, port, name)
 }
+
+func IsSlackEnabled() bool {
+	return os.Getenv("SLACK_ENABLED") == "true"
+}
+
+func GetSlackWebhookURL() string {
+	return os.Getenv("SLACK_WEBHOOK_URL")
+}

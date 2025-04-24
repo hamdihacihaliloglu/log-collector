@@ -9,12 +9,8 @@ services:
       - "8080:8080"
     depends_on:
       - db
-    environment:
-      - DB_HOST=db
-      - DB_PORT=3306
-      - DB_USER=root
-      - DB_PASS=secret
-      - DB_NAME=logdb
+    env_file:
+      - .env
     command: ["/wait-for-it.sh", "db:3306", "--", "./main"]
 
 
