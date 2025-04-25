@@ -23,9 +23,13 @@ func InitDB() {
 }
 
 func ProcessLog(entry models.LogEntry) {
-	LogJobs <- entry 
+	select {
+	case LogJobs <- entry:
+		// success
+	default:
+		PushToRedisFallback(entry) // fallback if channel full
+	}
 }
-
 
 
 func GetAllLogs() []models.LogEntry {

@@ -11,7 +11,6 @@ func StartWorkers(count int) {
 			for entry := range LogJobs {
 				log.Printf("[Worker-%d] processing log from %s", id, entry.Service)
 
-				// Asenkron değil, ama bağımsız
 				DB.Create(&entry)
 				SendToSlack(entry)
 				SendToElasticsearch(entry)

@@ -4,14 +4,17 @@ import (
 	"log"
 	"log-collector/internal/handlers"
 	"log-collector/internal/services"
-
+	"log-collector/internal/config"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	services.InitDB()
-	services.InitQueue(100)    
-	services.StartWorkers(5)    
+	services.InitRedis()
+	services.InitQueue(config.GetLogChannelCapacity())
+	services.StartWorkers(5) 
+	services.StartFallbackWorker() 
+	 
 	r := gin.Default()
 	r.POST("/logs", handlers.PostLog)
 	r.GET("/logs", handlers.GetLogs)
