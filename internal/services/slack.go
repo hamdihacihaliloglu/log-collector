@@ -6,12 +6,19 @@ import (
 	"log"
 	"log-collector/internal/config"
 	"log-collector/internal/models"
+	"log-collector/internal/logging"
 	"net/http"
 )
 
 func SendToSlack(entry models.LogEntry) {
 	if !config.IsSlackEnabled() {
 		log.Println("[Slack] Disabled via config")
+		return
+	}
+
+	minLevel := config.GetSlackLogLevel()
+	if !logging.ShouldLog(entry.Level, minLevel) {
+		log.Printf("[Slack] Skipped %s log below threshold: %s\n", entry.Service, entry.Level)
 		return
 	}
 

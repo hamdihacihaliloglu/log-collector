@@ -23,12 +23,12 @@ func InitDB() {
 }
 
 func ProcessLog(entry models.LogEntry) {
-	log.Printf("[LOG] [%s] [%s]: %s", entry.Service, entry.Level, entry.Message)
-
-	DB.Create(&entry)
-
-	SendToSlack(entry) 
-	SendToElasticsearch(entry)
+	select {
+	case LogJobs <- entry:
+		// success
+	default:
+		PushToRedisFallback(entry) // fallback if channel full
+	}
 }
 
 

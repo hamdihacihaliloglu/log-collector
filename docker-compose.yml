@@ -10,6 +10,7 @@ services:
     depends_on:
       - db
       - elasticsearch
+      - redis
     env_file:
       - .env
     command: ["/wait-for-it.sh", "db:3306", "--", "./main"]
@@ -41,6 +42,19 @@ services:
       - "9200:9200"
     volumes:
       - esdata:/usr/share/elasticsearch/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: mailpit
+    ports:
+      - "1025:1025" 
+      - "8025:8025"  
 
 volumes:
   db_data:
