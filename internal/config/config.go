@@ -14,3 +14,28 @@ func GetDBConnectionString() string {
 
 	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", user, pass, host, port, name)
 }
+
+func IsSlackEnabled() bool {
+	return os.Getenv("SLACK_ENABLED") == "true"
+}
+
+func GetSlackWebhookURL() string {
+	return os.Getenv("SLACK_WEBHOOK_URL")
+}
+
+func IsElasticEnabled() bool {
+	return os.Getenv("ELASTIC_ENABLED") == "true"
+}
+
+func GetElasticHost() string {
+	return os.Getenv("ELASTIC_HOST")
+}
+
+
+func GetElasticIndex() string {
+	index := os.Getenv("ELASTIC_INDEX")
+	if index == "" {
+		return "log-entries"
+	}
+	return index
+}

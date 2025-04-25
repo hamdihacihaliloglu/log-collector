@@ -24,8 +24,13 @@ func InitDB() {
 
 func ProcessLog(entry models.LogEntry) {
 	log.Printf("[LOG] [%s] [%s]: %s", entry.Service, entry.Level, entry.Message)
+
 	DB.Create(&entry)
+
+	SendToSlack(entry) 
+	SendToElasticsearch(entry)
 }
+
 
 func GetAllLogs() []models.LogEntry {
 	var logs []models.LogEntry
