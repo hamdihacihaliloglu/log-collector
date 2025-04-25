@@ -14,6 +14,7 @@ func StartWorkers(count int) {
 				DB.Create(&entry)
 				SendToSlack(entry)
 				SendToElasticsearch(entry)
+				SendMail(entry)
 			}
 		}(i + 1)
 	}

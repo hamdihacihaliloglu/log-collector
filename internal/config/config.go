@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func GetDBConnectionString() string {
@@ -23,6 +24,15 @@ func IsSlackEnabled() bool {
 func GetSlackWebhookURL() string {
 	return os.Getenv("SLACK_WEBHOOK_URL")
 }
+
+func GetSlackLogLevel() string {
+	level := os.Getenv("SLACK_LOG_LEVEL")
+	if level == "" {
+		return "info" 
+	}
+	return strings.ToLower(level)
+}
+
 
 func IsElasticEnabled() bool {
 	return os.Getenv("ELASTIC_ENABLED") == "true"
@@ -64,4 +74,16 @@ func GetLogChannelCapacity() int {
 		return 100
 	}
 	return n
+}
+
+func IsEmailEnabled() bool {
+	return os.Getenv("EMAIL_ENABLED") == "true"
+}
+
+func GetMailLogLevel() string {
+	level := os.Getenv("MAIL_LOG_LEVEL")
+	if level == "" {
+		return "error" 
+	}
+	return strings.ToLower(level)
 }

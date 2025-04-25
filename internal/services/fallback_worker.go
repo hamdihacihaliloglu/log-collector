@@ -39,6 +39,7 @@ func StartFallbackWorker() {
 			DB.Create(&entry)
 			SendToSlack(entry)
 			SendToElasticsearch(entry)
+			SendMail(entry)
 		}
 	}()
 }
