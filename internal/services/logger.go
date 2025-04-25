@@ -28,6 +28,7 @@ func ProcessLog(entry models.LogEntry) {
 	DB.Create(&entry)
 
 	SendToSlack(entry) 
+	SendToElasticsearch(entry)
 }
 
 
