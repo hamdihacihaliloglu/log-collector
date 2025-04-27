@@ -74,3 +74,57 @@ Simple health check endpoint.
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
 
+---
+
+##  Troubleshooting
+
+### 1. `/usr/bin/env: 'bash\r': No such file or directory`
+
+**Cause:**  
+This error occurs when a `.sh` script file is saved with Windows-style line endings (`CRLF`) instead of Unix-style (`LF`).  
+Linux-based Docker containers require `LF` line endings.
+
+**Solution:**  
+- Open the `.sh` file (such as `wait-for-it.sh`) in your text editor.
+- Change line endings from `CRLF` to `LF`.
+- Save the file.
+
+Alternatively, you can fix it via terminal:
+
+```bash
+dos2unix wait-for-it.sh
+```
+If dos2unix is not installed, you can install it:
+```bash
+sudo apt install dos2unix
+```
+### 2. Redis or MySQL Connection Errors
+
+Cause:
+Docker services may not be fully ready when the application tries to connect.
+
+Solution:
+
+    Ensure all Docker services (db, redis, app) are properly started.
+
+    Run:
+```bash
+docker-compose up --build
+```
+to rebuild and start everything cleanly.
+### 3. Slack or Email Notifications Not Working
+
+Cause:
+Missing or incorrect environment variables.
+
+Solution:
+
+    Check your .env file.
+
+    Make sure variables like SLACK_WEBHOOK_URL, EMAIL_SMTP, EMAIL_USER, and EMAIL_PASS are properly set.
+
+    If you don't want to use notifications, you can disable them:
+```bash
+SLACK_ENABLED=false
+EMAIL_ENABLED=false
+```
